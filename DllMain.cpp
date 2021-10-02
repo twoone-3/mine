@@ -9,7 +9,7 @@ using namespace std;
 
 static vector<pair<Block**, size_t>> g_blocks;
 static size_t g_weight_sum = 0;
-constexpr auto CONFIG_PATH = "./plugins/mine.json";
+constexpr const char* CONFIG_PATH = "./plugins/mine.json";
 // 液体固化
 HOOK(solidify, void, "?solidify@LiquidBlock@@IEBAXAEAVBlockSource@@AEBVBlockPos@@1@Z",
 	uintptr_t _this, BlockSource* bs, BlockPos* bp1, BlockPos* bp2) {

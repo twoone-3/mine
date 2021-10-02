@@ -123,7 +123,10 @@
       <GenerateDebugInformation>true</GenerateDebugInformation>
     </Link>
     <PostBuildEvent>
-      <Command>copy.bat</Command>
+      <Command>if exist ..\BDS\plugins (
+copy $(OutputPath)$(ProjectName).dll ..\BDS\plugins\$(ProjectName).dll
+copy $(OutputPath)$(ProjectName).pdb ..\BDS\plugins\$(ProjectName).pdb
+)</Command>
     </PostBuildEvent>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
@@ -143,7 +146,10 @@
       <GenerateDebugInformation>true</GenerateDebugInformation>
     </Link>
     <PostBuildEvent>
-      <Command>copy.bat</Command>
+      <Command>if exist ..\BDS\plugins (
+copy $(OutputPath)$(ProjectName).dll ..\BDS\plugins\$(ProjectName).dll
+copy $(OutputPath)$(ProjectName).pdb ..\BDS\plugins\$(ProjectName).pdb
+)</Command>
     </PostBuildEvent>
   </ItemDefinitionGroup>
   <ItemGroup>
@@ -155,7 +161,7 @@
     <ClCompile Include="mc\ScoreBoard.cpp" />
     <ClCompile Include="mc\Structure.cpp" />
     <ClCompile Include="mc\Tag.cpp" />
-    <ClCompile Include="mod.cpp" />
+    <ClCompile Include="DllMain.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="mc\Actor.h" />
@@ -172,9 +178,6 @@
     <ClInclude Include="mc\Tag.h" />
     <ClInclude Include="mc\tool.h" />
     <ClInclude Include="mc\json_tool.h" />
-  </ItemGroup>
-  <ItemGroup>
-    <Library Include="lib\chakra.lib" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

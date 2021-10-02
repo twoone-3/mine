@@ -7,13 +7,13 @@ string BlockLegacy::getBlockName() {
 }
 
 short BlockLegacy::getBlockItemID() {
-	return SymCall<short>("?getBlockItemId@BlockLegacy@@QEBAFXZ", this);
 	//IDA Item::beginCreativeGroup(,Block*,) 18~22
 	//short v3 = FETCH(short, this + 328);
 	//if (v3 < 0x100) {
 	//	return v3;
 	//}
 	//return short(255 - v3);
+	return SymCall<short>("?getBlockItemId@BlockLegacy@@QEBAFXZ", this);
 }
 
 BlockLegacy* Block::getBlockLegacy() {
@@ -26,6 +26,10 @@ Block* BlockActor::getBlock() {
 
 BlockPos* BlockActor::getPosition() {//IDA BlockActor::BlockActor 18~20
 	return reinterpret_cast<BlockPos*>(this + 44);
+}
+
+void BlockActor::setChanged() {
+	SymCall("?setChanged@BlockActor@@QEAAXXZ", this);
 }
 
 Block* BlockSource::getBlock(const BlockPos* bp) {

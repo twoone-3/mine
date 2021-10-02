@@ -39,7 +39,7 @@
     <ClCompile Include="mc\Tag.cpp">
       <Filter>源文件</Filter>
     </ClCompile>
-    <ClCompile Include="mod.cpp">
+    <ClCompile Include="DllMain.cpp">
       <Filter>源文件</Filter>
     </ClCompile>
   </ItemGroup>
@@ -86,8 +86,5 @@
     <ClInclude Include="mc\json_tool.h">
       <Filter>头文件</Filter>
     </ClInclude>
-  </ItemGroup>
-  <ItemGroup>
-    <Library Include="lib\chakra.lib" />
   </ItemGroup>
 </Project>

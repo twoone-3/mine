@@ -10,6 +10,21 @@ struct Tag;
 struct NetworkIdentifier;
 struct Container;
 struct ScorePacketInfo;
+struct Abilities;
+enum class PlayerPermissionLevel : uint8_t {
+	Visitor,
+	Member,
+	Operator,
+	Custom
+};
+enum class CommandPermissionLevel : uint8_t {
+	Any,
+	GameMasters,
+	Admin,
+	Host,
+	Owner,
+	Internal 
+};
 struct Actor {
 	//获取生物名称信息
 	std::string getNameTag();
@@ -69,8 +84,9 @@ struct Actor {
 };
 struct Mob : Actor {};
 struct Player : Mob {
+	//获取玩家uuid
 	std::string getUuid();
-	//根据地图信息获取玩家xuid
+	//获取玩家xuid
 	std::string& getXuid();
 	//获取网络标识符
 	NetworkIdentifier* getClientId();
@@ -94,24 +110,20 @@ struct Player : Mob {
 	ItemStack* getSelectedItem();
 	//获取背包物品
 	ItemStack* getInventoryItem(int slot);
-	//获取游戏时命令权限
-	char getPermissions();
-	//设置游戏时命令权限
-	void setPermissions(char m);
-	//获取游戏时游玩权限
-	char getPermissionLevel();
+	//获取游玩权限
+	PlayerPermissionLevel getPlayerPermissionLevel();
 	//设置游戏时游玩权限
-	void setPermissionLevel(char m);
+	void setPermissions(PlayerPermissionLevel m);
+	//获取玩家能力
+	Abilities* getAbilities();
 	//获取设备id
-	std::string getDeviceId();
+	std::string getPlatformOnlineId();
 	//获取设备系统类型
-	int getDeviceOS();
+	unsigned getPlatform();
 	//发送背包
 	void sendInventroy();
 	//刷新区块
 	void resendAllChunks();
-	//崩溃客户端
-	void crash();
 	//发送数据包
 	void sendPacket(uintptr_t pkt);
 	unsigned sendModalFormRequestPacket(const std::string& str);
@@ -123,3 +135,5 @@ struct Player : Mob {
 	void sendsetDisplayObjectivePacket(const std::string& title, const std::string& name = "name");
 	void sendSetScorePacket(char type, const std::vector<ScorePacketInfo>& slot);
 };
+//是否为玩家
+bool IsPlayer(Actor* ptr);

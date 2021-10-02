@@ -20,7 +20,7 @@ string Actor::getNameTag() {
 
 //设置生物名称信息
 
-void Actor::setNameTag(const string&name) {
+void Actor::setNameTag(const string& name) {
 	VirtualCall(0x1F8, this, &name);
 }
 
@@ -79,7 +79,7 @@ ItemStack* Actor::getArmor(int slot) {
 //获取实体类型
 
 unsigned Actor::getEntityTypeId() {
-	return VirtualCall<unsigned>(0x520, this);
+	return VirtualCall<unsigned>(0x558, this);
 	//return SymCall<unsigned>("?getEntityTypeId@Actor@@UEBA?AW4ActorType@@XZ", this);
 }
 
@@ -210,7 +210,7 @@ void Actor::kill() {
 string Player::getUuid() {//IDA ServerNetworkHandler::_createNewPlayer 222
 	string p;
 	SymCall<string&>("?asString@UUID@mce@@QEBA?AV?$basic_string@DU?$char_traits@D@std@@V?$allocator@D@2@@std@@XZ",
-		this + 3000, &p);
+		uintptr_t(this) + 2976, &p);
 	return p;
 }
 
@@ -218,7 +218,7 @@ string Player::getUuid() {//IDA ServerNetworkHandler::_createNewPlayer 222
 
 string& Player::getXuid() {
 	return SymCall<string&>("?getPlayerXUID@Level@@UEBAAEBV?$basic_string@DU?$char_traits@D@std@@V?$allocator@D@2@@std@@AEBVUUID@mce@@@Z",
-		getLevel(), this + 3000);
+		Global<Level>::data, uintptr_t(this) + 2976);
 }
 
 //获取网络标识符
@@ -239,50 +239,56 @@ Container* Player::getInventory() {
 //获取装备容器
 
 Container* Player::getArmorContainer() {
-	return FETCH(Container*, this + 1648);//IDA Actor::_setArmorContainer 11
+	return SymCall<Container*>("?getArmorContainer@Actor@@QEBAAEBVSimpleContainer@@XZ",
+		this);
 }
 
 //获取末影箱
 
 Container* Player::getEnderChestContainer() {
-	return FETCH(Container*, this + 4360);//IDA ReplaceItemCommand::execute 1086 
+	return FETCH(Container*, this + 4440);//IDA ReplaceItemCommand::execute 1086 
 }
 
 //设置一个装备
 
 uintptr_t Player::setArmor(int i, ItemStack* item) {
-	return SymCall<uintptr_t>("?setArmor@ServerPlayer@@UEAAXW4ArmorSlot@@AEBVItemStack@@@Z", this, i, item);
+	return SymCall<uintptr_t>("?setArmor@ServerPlayer@@UEAAXW4ArmorSlot@@AEBVItemStack@@@Z",
+		this, i, item);
 }
 
 //设置副手
 
 uintptr_t Player::setOffhandSlot(ItemStack* item) {
-	return SymCall<uintptr_t>("?setOffhandSlot@Player@@UEAAXAEBVItemStack@@@Z", this, item);
+	return SymCall<uintptr_t>("?setOffhandSlot@Player@@UEAAXAEBVItemStack@@@Z",
+		this, item);
 }
 
 //添加一个物品
 
 void Player::addItem(ItemStack* item) {
-	SymCall<uintptr_t>("?addItem@@YAXAEAVPlayer@@AEAVItemStack@@@Z", this, item);
+	SymCall<uintptr_t>("?addItem@@YAXAEAVPlayer@@AEAVItemStack@@@Z",
+		this, item);
 }
 
 //增加等级
 
 void Player::addLevel(int level) {
-	SymCall("?addLevels@Player@@UEAAXH@Z", this, level);
+	SymCall("?addLevels@Player@@UEAAXH@Z",
+		this, level);
 }
 
 //获取当前选中的框位置
 
 int Player::getSelectedItemSlot() {
-	return SymCall<int>("?getSelectedItemSlot@Player@@QEBAHXZ", this);
-	//return FETCH(unsigned, FETCH(uintptr_t, this + 3208) + 16);//IDA Player::getSelectedItemSlot
+	return SymCall<int>("?getSelectedItemSlot@Player@@QEBAHXZ",
+		this);
 }
 
 //获取当前物品
 
 ItemStack* Player::getSelectedItem() {
-	return SymCall<ItemStack*>("?getSelectedItem@Player@@QEBAAEBVItemStack@@XZ", this);
+	return SymCall<ItemStack*>("?getSelectedItem@Player@@QEBAAEBVItemStack@@XZ",
+		this);
 }
 
 //获取背包物品
@@ -291,42 +297,36 @@ ItemStack* Player::getInventoryItem(int slot) {
 	return getInventory()->getSlots()[slot];
 }
 
-//获取游戏时命令权限
-
-char Player::getPermissions() {
-	return *FETCH(char*, this + 2376);//IDA ServerPlayer::setPermissions 22
+//获取游戏时游玩权限
+PlayerPermissionLevel Player::getPlayerPermissionLevel() {
+	return SymCall<PlayerPermissionLevel>("?getPlayerPermissionLevel@Player@@QEBA?AW4PlayerPermissionLevel@@XZ",
+		this);
 }
 
 //设置游戏时命令权限
 
-void Player::setPermissions(char m) {
+void Player::setPermissions(PlayerPermissionLevel m) {
 	SymCall("?setPermissions@ServerPlayer@@UEAAXW4CommandPermissionLevel@@@Z",
 		this, m);
 }
 
-//获取游戏时游玩权限
-
-char Player::getPermissionLevel() {//IDA Abilities::setPlayerPermissions ?
-	return FETCH(char, FETCH(char*, this + 2376) + 1);
-}
-
-//设置游戏时游玩权限
-
-void Player::setPermissionLevel(char m) {
-	SymCall("?setPlayerPermissions@Abilities@@QEAAXW4PlayerPermissionLevel@@@Z",
-		this + 2376, m);
-}
-
 //获取设备id
-
-string Player::getDeviceId() {
-	return FETCH(string, this + 8352); //IDA Player::Player  v13 + 8352
+string Player::getPlatformOnlineId() {
+	string id;
+	SymCall<string&>("?getPlatformOnlineId@Player@@QEBAAEBV?$basic_string@DU?$char_traits@D@std@@V?$allocator@D@2@@std@@XZ",
+		this, &id);
+	return id;
+	//return FETCH(string, this + 8352);
+	//IDA Player::Player  v13 + 8352
 }
 
 //获取设备系统类型
 
-int Player::getDeviceOS() {
-	return FETCH(int, this + 2368);	//IDA ServerNetworkHandler::createNewPlayer  ConnectionRequest::getDeviceOS
+unsigned Player::getPlatform() {
+	return SymCall<unsigned>("?getPlatform@Player@@QEBA?AW4BuildPlatform@@XZ",
+		this);
+	//return FETCH(int, this + 2336);
+	//IDA ServerNetworkHandler::createNewPlayer  ConnectionRequest::getDeviceOS
 }
 
 //发送背包
@@ -347,15 +347,6 @@ void Player::resendAllChunks() {
 void Player::sendPacket(uintptr_t pkt) {
 	SymCall("?sendNetworkPacket@ServerPlayer@@UEBAXAEAVPacket@@@Z",
 		this, pkt);
-}
-
-//使玩家客户端崩溃
-void Player::crash() {
-	uintptr_t pkt = createPacket(58);
-	FETCH(int, pkt + 14) = 0;
-	FETCH(int, pkt + 15) = 0;
-	FETCH(bool, pkt + 48) = 1;
-	sendPacket(pkt);
 }
 
 unsigned Player::sendModalFormRequestPacket(const string& str) {
@@ -421,4 +412,12 @@ void Player::sendSetScorePacket(char type, const vector<ScorePacketInfo>& slot) 
 	FETCH(char, pkt + 48) = type;//{set,remove}
 	FETCH(vector<ScorePacketInfo>, pkt + 56) = slot;
 	sendPacket(pkt);
+}
+
+bool IsPlayer(Actor* ptr) {
+	if (ptr == nullptr)
+		return false;
+	if (ptr->getEntityTypeId() != 319)
+		return false;
+	return true;
 }
