@@ -1,3 +1,4 @@
-.vs/
+﻿.vs/
 x64/
 *.user
+SDK/Tools/

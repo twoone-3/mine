@@ -15,76 +15,14 @@
     </Filter>
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="mc\Actor.cpp">
-      <Filter>源文件</Filter>
-    </ClCompile>
-    <ClCompile Include="mc\Block.cpp">
-      <Filter>源文件</Filter>
-    </ClCompile>
-    <ClCompile Include="mc\ItemStack.cpp">
-      <Filter>源文件</Filter>
-    </ClCompile>
-    <ClCompile Include="mc\Level.cpp">
-      <Filter>源文件</Filter>
-    </ClCompile>
-    <ClCompile Include="mc\NetWork.cpp">
-      <Filter>源文件</Filter>
-    </ClCompile>
-    <ClCompile Include="mc\ScoreBoard.cpp">
-      <Filter>源文件</Filter>
-    </ClCompile>
-    <ClCompile Include="mc\Structure.cpp">
-      <Filter>源文件</Filter>
-    </ClCompile>
-    <ClCompile Include="mc\Tag.cpp">
-      <Filter>源文件</Filter>
-    </ClCompile>
-    <ClCompile Include="DllMain.cpp">
+    <ClCompile Include="mod\Main.cpp">
       <Filter>源文件</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="mc\Actor.h">
-      <Filter>头文件</Filter>
-    </ClInclude>
-    <ClInclude Include="mc\Block.h">
-      <Filter>头文件</Filter>
-    </ClInclude>
-    <ClInclude Include="mc\Command.h">
-      <Filter>头文件</Filter>
-    </ClInclude>
-    <ClInclude Include="mc\ItemStack.h">
-      <Filter>头文件</Filter>
-    </ClInclude>
-    <ClInclude Include="mc\json.hpp">
-      <Filter>头文件</Filter>
-    </ClInclude>
-    <ClInclude Include="mc\Level.h">
-      <Filter>头文件</Filter>
-    </ClInclude>
-    <ClInclude Include="mc\NetWork.h">
-      <Filter>头文件</Filter>
-    </ClInclude>
-    <ClInclude Include="mc\Position.h">
-      <Filter>头文件</Filter>
-    </ClInclude>
-    <ClInclude Include="mc\ScoreBoard.h">
-      <Filter>头文件</Filter>
-    </ClInclude>
-    <ClInclude Include="mc\span.h">
-      <Filter>头文件</Filter>
-    </ClInclude>
-    <ClInclude Include="mc\Structure.h">
-      <Filter>头文件</Filter>
-    </ClInclude>
-    <ClInclude Include="mc\Tag.h">
-      <Filter>头文件</Filter>
-    </ClInclude>
-    <ClInclude Include="mc\tool.h">
-      <Filter>头文件</Filter>
-    </ClInclude>
-    <ClInclude Include="mc\json_tool.h">
-      <Filter>头文件</Filter>
-    </ClInclude>
+    <Library Include="SDK\Lib\LiteLoader.lib" />
+    <Library Include="SDK\Lib\LiteLoader.lib" />
+    <Library Include="SDK\Lib\bedrock_server_api.lib" />
+    <Library Include="SDK\Lib\bedrock_server_var.lib" />
   </ItemGroup>
 </Project>
