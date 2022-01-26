@@ -24,5 +24,11 @@
     <Library Include="SDK\Lib\LiteLoader.lib" />
     <Library Include="SDK\Lib\bedrock_server_api.lib" />
     <Library Include="SDK\Lib\bedrock_server_var.lib" />
+    <Library Include="SDK\Lib\SymDBHelper.lib" />
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="mod\ConfigManager.h">
+      <Filter>头文件</Filter>
+    </ClInclude>
   </ItemGroup>
 </Project>

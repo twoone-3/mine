@@ -65,6 +65,10 @@ copy $(OutputPath)$(ProjectName).pdb ..\BDS\plugins\$(ProjectName).pdb
     <Library Include="SDK\Lib\bedrock_server_api.lib" />
     <Library Include="SDK\Lib\bedrock_server_var.lib" />
     <Library Include="SDK\Lib\LiteLoader.lib" />
+    <Library Include="SDK\Lib\SymDBHelper.lib" />
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="mod\ConfigManager.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">
