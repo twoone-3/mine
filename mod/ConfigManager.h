@@ -16,6 +16,7 @@ private:
 };
 
 ConfigManager::ConfigManager(const char* fname, const Json& default_value) {
+	json_ = default_value;
 	FILE* f = fopen(fname, "rb");
 	if (f) {
 		fseek(f, 0, SEEK_END);

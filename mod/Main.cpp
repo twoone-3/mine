@@ -34,7 +34,7 @@ void entry() {
 			logger.error("[mine] invalid block: {}", key);
 			continue;
 		}
-		g_blocks.push_back({ block, val.get<size_t>() });
+		g_blocks.push_back({block, val.get<size_t>()});
 		g_weight_sum += val.get<size_t>();
 	}
 	for (auto& [key, val] : cm.getJson().items()) {
@@ -43,8 +43,7 @@ void entry() {
 	}
 }
 
-extern "C"
-_declspec(dllexport) void onPostInit() {
+extern "C" _declspec(dllexport) void onPostInit() {
 	std::ios::sync_with_stdio(false);
 	entry();
 }
@@ -59,7 +58,6 @@ THook(void, "?solidify@LiquidBlock@@IEBAXAEAVBlockSource@@AEBVBlockPos@@1@Z",
 		for (auto [block, weight] : g_blocks) {
 			if (random_number < weight) {
 				bs.setBlockSimple(bp1, **block);
-				bs.updateNeighborsAt(bp1);
 				break;
 			}
 			random_number -= weight;
