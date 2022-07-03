@@ -1,7 +1,8 @@
-﻿#include "ConfigManager.h"
-#include <LoggerAPI.h>
-#include <HookAPI.h>
+﻿#define NOMINMAX
+#include "ConfigManager.h"
 #include <Global.h>
+#include <LoggerAPI.h>
+//#include <HookAPI.h>
 #include <MC/Block.hpp>
 #include <MC/BlockLegacy.hpp>
 #include <MC/BlockSource.hpp>
@@ -16,7 +17,8 @@ constexpr const char* CONFIG_PATH = "./plugins/mine.json";
 void entry() {
 	srand(static_cast<unsigned>(time(0)));
 	ConfigManager cm(CONFIG_PATH, {
-		{"Cobblestone", 200},
+		{"Cobblestone", 100},
+		{"Stone", 100},
 		{"CoalOre", 20},
 		{"CopperOre", 15},
 		{"IronOre", 10},
@@ -29,7 +31,7 @@ void entry() {
 	for (auto& [key, val] : cm.getJson().items()) {
 		//未初始化，取值为nullptr，需要运行时再取
 		string sym("?m" + key + "@VanillaBlocks@@3PEBVBlock@@EB");
-		Block** block = reinterpret_cast<Block**>(SYM(sym.c_str()));
+		Block** block = reinterpret_cast<Block**>(dlsym_real(sym.c_str()));
 		if (!block) {
 			logger.error("[mine] invalid block: {}", key);
 			continue;
@@ -55,7 +57,7 @@ THook(void, "?solidify@LiquidBlock@@IEBAXAEAVBlockSource@@AEBVBlockPos@@1@Z",
 	short bid = bs.getBlock(bp1).getLegacyBlock().getBlockItemId();
 	if (bid == 4 || bid == 1) {//Stone and Cobblestone
 		size_t random_number = rand() % g_weight_sum;
-		for (auto [block, weight] : g_blocks) {
+		for (auto& [block, weight] : g_blocks) {
 			if (random_number < weight) {
 				bs.setBlockSimple(bp1, **block);
 				break;
@@ -64,3 +66,4 @@ THook(void, "?solidify@LiquidBlock@@IEBAXAEAVBlockSource@@AEBVBlockPos@@1@Z",
 		}
 	}
 }
+
